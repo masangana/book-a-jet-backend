@@ -13,6 +13,6 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:name, :email, :username, :photo, :password)
+    params.permit(:name, :email, :username, :photo, :password)
   end
 end
