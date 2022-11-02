@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root '/api-docs'
+  root Rswag::Ui::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
       
