@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'homes#index'
+  root '/api-docs'
   namespace :api do
     namespace :v1 do
       
