@@ -1,4 +1,6 @@
 class Api::V1::ReservationsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_reservation, only: %i[destroy]
   def index
     @reservations = current_user.reservations.includes(:user, :jet).as_json(
       only: %i[starting_day finish_day city id jet_id],
@@ -35,11 +37,14 @@ class Api::V1::ReservationsController < ApplicationController
   end
 
   def destroy
-    @reservation = Reservation.find_by(id: params[:id])
-    if @reservation.destroy
-      render json: { message: 'Reservation deleted successfully' }
+    if @reservation.present?
+      if @reservation.destroy
+        render json: { message: 'Reservation deleted successfully' }, status: :no_content
+      else
+        render json: { error: 'Unable to delete reservation' }, status: :unprocessable_entity
+      end
     else
-      render json: { error: 'Unable to delete reservation' }
+      render status: :not_found
     end
   end
 
@@ -54,6 +59,10 @@ class Api::V1::ReservationsController < ApplicationController
   end
 
   private
+
+  def set_reservation
+    @reservation = Reservation.find_by(id: params[:id])
+  end
 
   def reservation_params
     params.require(:reservation).permit(:jet_id, :starting_day, :finish_day, :city)

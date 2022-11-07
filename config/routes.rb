@@ -23,19 +23,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       
-      #For reservations CRUD
-      get '/reservations', to: 'reservations#index'
-      get '/reservations/:id', to: 'reservations#show'
-      post '/add_reservation', to: 'reservations#create'
-      delete '/del_reservation', to: 'reservations#destroy'
-
-      #For jets CRUD
-      post '/add-jet', to: 'jets#create'
-      delete '/delete-jet', to: 'jets#destroy'
-      patch '/update-jet', to: 'jets#update'
-      get '/jets', to: 'jets#index'
-      get '/jets/:id', to: 'jets#show'
-     #show authorizeduser info
+    
+      resources :reservations, only: %i[index create show destroy]
+      resources :jets, only: %i[index create show  destroy]
+   
      get "/authenticated-user", to: "auths#show"
     end
   end

@@ -1,4 +1,6 @@
 class Api::V1::JetsController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :set_jet, only: %i[destroy]
   def index
     jets = Jet.includes(:reservations).all.order(:id)
     if jets
@@ -33,12 +35,14 @@ class Api::V1::JetsController < ApplicationController
   end
 
   def destroy
-    jet = Jet.find_by(id: params[:id])
-    if jet
-      jet.destroy
-      render json: { message: 'Jet deleted successfully' }, status: :ok
+    if @jet.present?
+      if @jet.destroy
+        render json: { message: 'Jet deleted successfully' }, status: :no_content
+      else
+        render json: { error: 'Unable to delete jet' }, status: :unprocessable_entity
+      end
     else
-      render json: { error: 'Unable to delete jet' }, status: :unprocessable_entity
+      render status: :not_found
     end
   end
 
@@ -53,6 +57,10 @@ class Api::V1::JetsController < ApplicationController
   end
 
   private
+
+  def set_jet
+    @jet = Jet.find_by(id: params[:id])
+  end
 
   def jet_params
     params.require(:jet).permit(:name, :price_per_day, :description, :size, :category, :finance_fee, :image)

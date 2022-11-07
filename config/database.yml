@@ -28,7 +28,6 @@ development:
 test:
   <<: *default
   database: book_a_jet_backend_test
- 
 
 production:
   <<: *default

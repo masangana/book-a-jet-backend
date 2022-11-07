@@ -11,8 +11,13 @@
 
 ## React Front-End
 - [Book-a-Jet-Front-End](https://github.com/KaskMIL/book-a-jet-front-end)
+- Live Demo: [EasyFly](https://timely-sprinkles-616361.netlify.app/)
 
-## Live Demo (coming soon...)
+## Kanban Board
+
+- [Link to the Kanban](https://github.com/users/KaskMIL/projects/1)
+- [Initial state](https://github.com/KaskMIL/book-a-jet-backend/issues/15)
+- Number of team members: 4
 
 ## Getting Started
 
